@@ -17,8 +17,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.send']
-SENDER = "radek235s@gmail.com"
-TOPIC = "Komorka 8 - Lotek"
+SENDER = "no-reply@gmail.com"
+TOPIC = "TEST TOPIC"
 
 class Contact:
     """
@@ -65,33 +65,20 @@ def initPerson():
         x.randomOtherIdFromTab(RANDOM_LIST)
 
 def message_body(recipient, subject):
-
-    f = False
-    if subject[-1:] == 'a':
-        f = True
+    """Write a text message to send to each person. Assign subject to each recipient"""
         
     message_extra = '''\
-Niech ten czas pierwszych dni Wielkiego Postu będzie dla Ciebie czasem podejmowania walki o wytrwałość w postanowieniach. Zatrzymaniem się nad uczynkami miłosierdzia względem drugiego człowieka
+Extra message text field at the end.
         \
         '''
 
-    if f:
-        message = '''\
-Cześć {p1}! 
+    message = '''\
+Hi {p1}! 
 
-{p2} została wylosowana dla Ciebie w dzisiejszym lotku aby otoczyć ją modlitwą w tym tygodniu. {text}
+You have been assigned to {p2}. {text}
         
-Pozdrawiam,
-Radek\
-'''.format(p1=recipient, p2=subject, text=message_extra)
-    else:
-        message = '''\
-Cześć {p1}! 
-
-{p2} został wylosowany dla Ciebie w dzisiejszym lotku aby otoczyć go modlitwą w tym tygodniu. {text}
-        
-Pozdrawiam,
-Radek\
+Regards,
+YOUR NAME\
 '''.format(p1=recipient, p2=subject, text=message_extra)
     
     return message
@@ -138,7 +125,7 @@ def main():
     for person in PERSON_LIST:
         send_message(service, 'me', create_message(SENDER, person.email, TOPIC, message_body(person.name, PERSON_LIST[person.other_id].name)))
 
-    print ("Wysłano!")
+    print ("Messages sent!")
 
 if __name__ == '__main__':
     initPerson()
